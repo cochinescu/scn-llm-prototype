@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "SCN-LLM Prototype: a synthetic reference implementation of the SCN temporal module"
+abstract: >-
+  A single-machine synthetic reference implementation of an SCN-inspired temporal
+  module for large language models: a coupled Van der Pol oscillator clock,
+  phase-response entrainment to a synthetic zeitgeber, an analytic 16-D
+  temporal-state map, and a toy phase-modulated retrieval path, with a reproducible
+  four-figure mechanism-and-cost evaluation.
+type: software
+authors:
+  - family-names: Cochinescu
+    given-names: Sebastian
+    affiliation: Anima Felix
+    # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add ORCID before release
+license: MIT
+version: 0.1.0
+repository-code: "https://github.com/cochinescu/scn-llm-prototype"
+keywords:
+  - circadian rhythm
+  - suprachiasmatic nucleus
+  - large language models
+  - retrieval-augmented generation
+  - coupled oscillators
+  - entrainment
+  - reference implementation

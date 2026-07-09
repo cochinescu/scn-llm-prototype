@@ -1,0 +1,56 @@
+{
+  "schema_version": "scnllm-zeitgeber-v1",
+  "master_seed": 20260709,
+  "schedule": {
+    "duration_hours": 432,
+    "sample_hours": 0.16666666666666666,
+    "shift_at_hours": 216,
+    "shift_hours": 6.0,
+    "zeitgeber_clock_period_hours": 24.0,
+    "target_phase_definition": "2*pi*((time - shift)%24)/24; independent of the oscillator under test"
+  },
+  "oscillator_defaults": {
+    "n_oscillators": 5,
+    "intrinsic_period_hours": 24.2,
+    "mu": 0.05,
+    "coupling": 0.2,
+    "entrainment_gain": 0.2,
+    "frequency_spread": 0.02,
+    "solver_rtol": 1e-06,
+    "solver_atol": 1e-08
+  },
+  "trajectory_columns": {
+    "time_hours": "simulation time",
+    "phase": "SCN mean-field phase (rad, [0,2pi))",
+    "reduced_phase": "Algorithm-1 phase-reduced update (rad); discrete forward-Euler",
+    "target_phase": "independent environmental ground-truth phase (rad)",
+    "zeitgeber": "aggregated zeitgeber magnitude Z(t) in [0,1]"
+  },
+  "solver": {
+    "method": "scipy.solve_ivp",
+    "rtol": 1e-06,
+    "atol": 1e-08
+  },
+  "latency_benchmark": {
+    "repeats": 160,
+    "warmup": 20,
+    "metric": "median_ms + 95% interval"
+  },
+  "module_flop_estimate": {
+    "phase_update_flops": 16,
+    "state_map_flops": 64,
+    "total_flops_per_update": 80
+  },
+  "overhead_projection_assumptions": {
+    "tokens_per_query": 256,
+    "updates_per_query": 1.0,
+    "model_forward_flops_per_token": "2 * n_params",
+    "note": "oscillator/state primitives only; excludes sensor + RAG machinery"
+  },
+  "platform": {
+    "python": "3.14.3",
+    "system": "Darwin",
+    "machine": "arm64",
+    "processor": "arm"
+  }
+}

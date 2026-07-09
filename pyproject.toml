@@ -1,0 +1,20 @@
+[project]
+name = "scnllm-prototype"
+version = "0.1.0"
+description = "Single-machine synthetic reference implementation of the SCN-LLM temporal module"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Sebastian Cochinescu" }]
+keywords = ["circadian", "oscillators", "entrainment", "llm", "retrieval"]
+dependencies = ["numpy>=2.0", "scipy>=1.14", "matplotlib>=3.9"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.urls]
+Repository = "https://github.com/cochinescu/scn-llm-prototype"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

@@ -1,0 +1,3 @@
+model_params_billions,model_flops_per_query,module_flops_per_query,projected_overhead_percent
+7.0,3584000000000.0,80.0,2.2321428571428574e-09
+70.0,35840000000000.0,80.0,2.2321428571428572e-10

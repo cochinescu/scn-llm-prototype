@@ -1,0 +1,22 @@
+{
+  "title": "SCN-LLM Prototype: a synthetic reference implementation of the SCN temporal module",
+  "description": "A single-machine synthetic reference implementation of an SCN-inspired temporal module for large language models: a coupled Van der Pol oscillator clock, phase-response entrainment to a synthetic zeitgeber, an analytic 16-D temporal-state map, and a toy phase-modulated retrieval path, with a reproducible four-figure mechanism-and-cost evaluation. It does not measure believability, engagement, trust, or retrieval quality.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Cochinescu, Sebastian",
+      "affiliation": "Anima Felix"
+    }
+  ],
+  "keywords": [
+    "circadian rhythm",
+    "suprachiasmatic nucleus",
+    "large language models",
+    "retrieval-augmented generation",
+    "coupled oscillators",
+    "entrainment",
+    "reference implementation"
+  ]
+}
