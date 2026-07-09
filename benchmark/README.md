@@ -121,8 +121,9 @@ The data and code in this directory are released under **CC BY 4.0**
 ## Citation
 
 > S. Cochinescu. *SCN Temporal-Entrainment Benchmark v1.0.* Zenodo, 2026.
-> DOI: `<benchmark DOI — added on first Zenodo release>`. Accompanies the SCN-LLM
-> paper.
+> DOI: [10.5281/zenodo.21286179](https://doi.org/10.5281/zenodo.21286179)
+> (concept DOI). Accompanies the SCN-LLM paper; the reference implementation is
+> archived at [10.5281/zenodo.21286077](https://doi.org/10.5281/zenodo.21286077).
 
 The benchmark has its **own** Zenodo DOI, separate from the code repository's
 concept DOI, so it is independently citable.

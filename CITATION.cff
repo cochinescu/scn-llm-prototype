@@ -17,7 +17,15 @@ authors:
 license: MIT
 version: 0.1.0
 date-released: "2026-07-10"
+doi: 10.5281/zenodo.21286077
 repository-code: "https://github.com/cochinescu/scn-llm-prototype"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21286077
+    description: Concept DOI (resolves to the latest release).
+  - type: doi
+    value: 10.5281/zenodo.21286179
+    description: Accompanying SCN Temporal-Entrainment Benchmark dataset.
 keywords:
   - circadian rhythm
   - suprachiasmatic nucleus

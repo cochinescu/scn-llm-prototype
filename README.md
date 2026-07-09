@@ -89,7 +89,10 @@ solver's numerical tolerance.
 ## Citation
 
 If you use this software, please cite it via [`CITATION.cff`](CITATION.cff) and
-the archived release DOI (added on first Zenodo release).
+its archived DOI: [10.5281/zenodo.21286077](https://doi.org/10.5281/zenodo.21286077)
+(concept DOI — resolves to the latest release). The accompanying phase-tracking
+benchmark has its own DOI:
+[10.5281/zenodo.21286179](https://doi.org/10.5281/zenodo.21286179).
 
 ## License
 
