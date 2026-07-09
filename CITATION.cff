@@ -11,10 +11,12 @@ type: software
 authors:
   - family-names: Cochinescu
     given-names: Sebastian
-    affiliation: Anima Felix
-    # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add ORCID before release
+    affiliation: University of Bucharest
+    email: sebastian.cochinescu@drd.unibuc.ro
+    orcid: "https://orcid.org/0009-0006-1436-4819"
 license: MIT
 version: 0.1.0
+date-released: "2026-07-10"
 repository-code: "https://github.com/cochinescu/scn-llm-prototype"
 keywords:
   - circadian rhythm
@@ -24,3 +26,13 @@ keywords:
   - coupled oscillators
   - entrainment
   - reference implementation
+preferred-citation:
+  type: article
+  title: "SCN-LLM: An SCN-Inspired Temporal Architecture for Rhythmic Entrainment and Adaptive Retrieval in Large Language Models"
+  authors:
+    - family-names: Cochinescu
+      given-names: Sebastian
+      affiliation: University of Bucharest
+      orcid: "https://orcid.org/0009-0006-1436-4819"
+  year: 2026
+  # doi/url to be added on preprint (arXiv) / journal publication
