@@ -57,8 +57,8 @@ architecture's `≈15%` / `<200 ms` design *targets*.
 
 | Temporal-module primitive | Median (ms) | 95% interval (ms) |
 | --- | ---: | ---: |
-| state vector | 0.0055 | 0.0054–0.0058 |
-| scn update | 0.0062 | 0.0061–0.0065 |
+| state vector | 0.0055 | 0.0054–0.0060 |
+| scn update | 0.0061 | 0.0060–0.0065 |
 
 Toy-corpus retrieval latency, baseline vs phase-modulated, with the isolated
 added-module reweight cost. The toy retrieval is a NumPy cosine over an in-memory
@@ -67,9 +67,9 @@ retrieval time, which a real RAG index/embedding/batching would dominate.
 
 | Toy corpus size | Baseline (ms) | Phase-modulated (ms) | Added reweight (ms) |
 | --- | ---: | ---: | ---: |
-| 128 | 0.0045 | 0.0085 | 0.0040 |
-| 512 | 0.0088 | 0.0148 | 0.0061 |
-| 2048 | 0.0814 | 0.1014 | 0.0200 |
+| 128 | 0.0048 | 0.0090 | 0.0042 |
+| 512 | 0.0088 | 0.0153 | 0.0065 |
+| 2048 | 0.0726 | 0.1053 | 0.0326 |
 
 ### Figure 1: system-overhead projection (labelled, not measured)
 

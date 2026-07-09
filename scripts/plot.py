@@ -142,8 +142,12 @@ def _figure_dynamics(results: Path, dynamics: dict[str, str], trajectory: list[d
     axes[1].set_xlabel("Simulation time (hours)")
     axes[1].set_ylabel("Unwrapped cycles")
     axes[1].set_title(
-        f"Re-entrainment; lock residual {float(dynamics['post_shift_lock_residual_percent']):.1f}%, "
-        f"re-lock {float(dynamics['reentrainment_time_hours']):.0f} h"
+        "Re-entrainment after 6 h shift\n"
+        f"raw phase error {float(dynamics['post_shift_raw_phase_error_percent']):.1f}% "
+        f"(angle {float(dynamics['entrainment_angle_degrees']):.1f}°) · "
+        f"lock residual {float(dynamics['post_shift_lock_residual_percent']):.1f}% · "
+        f"re-lock {float(dynamics['reentrainment_time_hours']):.0f} h",
+        fontsize=9,
     )
     axes[1].legend(fontsize=8)
     _save(results / "fig3_entrainment.png")
