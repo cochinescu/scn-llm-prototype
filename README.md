@@ -65,7 +65,18 @@ scnllm/         core modules (oscillator, zeitgeber, PRC helpers, state map,
 scripts/        reproduce.py (one-command pipeline) and plot.py (figures)
 tests/          pytest suite for the mechanism-level properties
 results/        regenerated CSVs, figures, and RESULTS.md
+benchmark/      standalone, versioned phase-tracking benchmark (see below)
 ```
+
+## Benchmark
+
+[`benchmark/`](benchmark/) is a **standalone, independently-citable** phase-tracking
+benchmark (its own **CC BY 4.0** license and Zenodo DOI): a frozen, versioned
+synthetic zeitgeber dataset (`v1.0/`) plus a **standard-library-only** scorer, so a
+temporal / clock-inference system in *any* language can be graded on the same task —
+inferring the environmental phase from the observable zeitgeber alone. The oscillator
+in this repo is provided as the reference baseline. See
+[`benchmark/README.md`](benchmark/README.md).
 
 ## Reproducibility
 

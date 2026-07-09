@@ -1,0 +1,20 @@
+{
+  "benchmarkVersion": "1.0",
+  "detuning_note": "intrinsic oscillator 24.2 h vs zeitgeber clock 24.0 h; a mid-run 6 h shift at hour 216",
+  "n_samples": 2593,
+  "params": {
+    "duration_hours": 432,
+    "sample_hours": 0.16666666666666666,
+    "seed": 20260709,
+    "shift_at_hours": 216,
+    "shift_hours": 6.0
+  },
+  "reference_oscillator_seed": 20260710,
+  "schemaVersion": "scnllm-entrainment-v1",
+  "seed": 20260709,
+  "sha256": {
+    "labels.json": "c597367b7ffb0981e9a0e929b1933c152967f8aafd365b5a8708a471052e18a9",
+    "schedule.csv": "8fc7c87977c1690d09f709b41e62ace6f646644f1570ca72f65733ce6ac9e0ee"
+  },
+  "task": "phase-tracking"
+}
