@@ -127,6 +127,18 @@ frozen.
 - `phi*` is never an input, so non-entrainment is a possible outcome — a
   predictor that ignores the zeitgeber will score poorly, by construction.
 
+## Versions
+
+- **v1.0** — original frozen dataset + scorer.
+- **v1.0.1** — **scorer patch, dataset unchanged.** The `v1.0/` data files are
+  byte-identical to v1.0 (the `MANIFEST.json` SHA-256 pins are unchanged), so any
+  v1.0 submission scores identically on the target-facing metrics. `score.py` was
+  corrected in two ways: (i) `reentrainment_time_hours` is now measured against the
+  **pre-shift** entrainment angle, so a non-adapting predictor correctly scores
+  `NaN` rather than `0` (the reference baseline is unchanged at 25.67 h); and
+  (ii) the scorer now rejects non-finite, duplicate, unexpected, and malformed
+  predictions instead of silently returning `NaN` metrics.
+
 ## License
 
 The data and code in this directory are released under **CC BY 4.0**

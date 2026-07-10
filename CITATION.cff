@@ -15,7 +15,7 @@ authors:
     email: sebastian.cochinescu@drd.unibuc.ro
     orcid: "https://orcid.org/0009-0006-1436-4819"
 license: MIT
-version: 0.1.0
+version: 0.1.1
 date-released: "2026-07-10"
 doi: 10.5281/zenodo.21286077
 repository-code: "https://github.com/cochinescu/scn-llm-prototype"

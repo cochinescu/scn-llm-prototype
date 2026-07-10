@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scnllm-prototype"
-version = "0.1.0"
+version = "0.1.1"
 description = "Single-machine synthetic reference implementation of the SCN-LLM temporal module"
 readme = "README.md"
 requires-python = ">=3.11"
