@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "scnllm-prototype"
 version = "0.1.0"
@@ -14,6 +18,12 @@ dev = ["pytest>=8"]
 
 [project.urls]
 Repository = "https://github.com/cochinescu/scn-llm-prototype"
+
+# Explicit package discovery: the flat layout has non-package data dirs
+# (results/, benchmark/) that setuptools auto-discovery would otherwise treat
+# as top-level packages and refuse to build. Ship only the importable package.
+[tool.setuptools]
+packages = ["scnllm"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
