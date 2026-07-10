@@ -9,8 +9,8 @@ absolute tolerance `1e-8`, sampled every 10 minutes.
 
 | Metric | Value | Reference |
 | --- | ---: | --- |
-| Free-running period (hours) | 24.223 | intrinsic target 24.2 h |
-| Ensemble order parameter R (free-run) | 0.999 | 1.0 = fully synchronized |
+| Free-running period, 16-seed mean (hours) | 24.234 | intrinsic target 24.2 h; single reference run 24.223 |
+| Ensemble order parameter R, 16-seed mean (free-run) | 0.9996 | 1.0 = fully synchronized; single reference run 0.999 |
 | Post-shift **raw phase error** (%) | 15.762 | vs paper target &lt;5%; primary metric |
 | Pre-shift raw phase error (%) | 13.852 | vs paper target &lt;5% |
 | Phase angle of entrainment (deg) | 55.8 | ~3.7 h lag; physical, accounts for most of the raw error |
