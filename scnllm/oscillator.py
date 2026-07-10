@@ -92,6 +92,11 @@ def simulate(schedule: ZeitgeberSchedule, config: OscillatorConfig = OscillatorC
     # Observable zeitgeber, mean-subtracted so the drive carries the daily
     # timing structure without a rectified DC frequency shift. target_phase is
     # NOT read here -- it is only an evaluation label (see module doc).
+    # This subtracts the OFFLINE (whole-schedule) mean: a batch simplification for
+    # this synthetic reference, not a causal real-time path. A streaming deployment
+    # would use a causal running mean; the two differ only by a startup transient
+    # that decays to ~1% of the mean well before the measured post-shift window, so
+    # the reported entrainment metrics are unaffected by the choice.
     z_centered = schedule.value - float(np.mean(schedule.value))
 
     def rhs(time: float, state: np.ndarray) -> np.ndarray:

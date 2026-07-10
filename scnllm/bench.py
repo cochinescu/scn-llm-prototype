@@ -77,14 +77,23 @@ def _latency_row(component: str, corpus_size: int, callback) -> dict[str, float 
 
 
 def reentrainment_time_hours(entrained: SimulationResult, shift_at_hours: float, tolerance_frac: float = 0.10) -> float:
-    """Hours after the schedule shift until the phase-difference settles to
-    within ``tolerance_frac`` of a cycle of its post-shift stable angle and stays
-    there. Returns NaN if it never re-locks within the run."""
+    """Hours after the schedule shift until the phase-difference returns to within
+    ``tolerance_frac`` of a cycle of the *pre-shift* stable entrainment angle and
+    stays there. Returns NaN if it never re-locks within the run.
+
+    Recovery is measured against the pre-shift entrainment relationship, NOT the
+    oscillator's own eventual post-shift angle: a non-adapting oscillator that
+    holds a stable but *unshifted* offset must score as never re-entraining rather
+    than as instantly recovered (its difference is stable, so scoring against its
+    own post-shift angle would wrongly report 0 h). Mirrors ``benchmark/score.py``."""
     time = entrained.time_hours
     diff = phase_error(entrained.phase, entrained.target_phase)
     post = time >= shift_at_hours
-    settled = time >= (shift_at_hours + (time[-1] - shift_at_hours) / 2)
-    angle = np.angle(np.mean(np.exp(1j * diff[settled])))
+    # Stable pre-shift entrainment angle: second half of the pre-shift window.
+    pre_settled = (time >= shift_at_hours / 2) & (time < shift_at_hours)
+    if not np.any(pre_settled):
+        return float("nan")
+    angle = np.angle(np.mean(np.exp(1j * diff[pre_settled])))
     deviation = np.abs(phase_error(diff, angle))
     threshold = tolerance_frac * 2 * np.pi
     for k in np.where(post)[0]:

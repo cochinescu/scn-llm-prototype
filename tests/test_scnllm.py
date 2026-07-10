@@ -20,6 +20,7 @@ from scnllm.bench import (
     module_flop_estimate,
     overhead_projection,
     reduction_discretization_error,
+    reentrainment_time_hours,
 )
 from scnllm.oscillator import OscillatorConfig, estimate_period_hours, simulate
 from scnllm.prc import phase_error
@@ -124,6 +125,18 @@ def test_reentrainment_after_shift_is_finite(runs):
     relock = runs["dynamics"]["reentrainment_time_hours"]
     assert np.isfinite(relock)
     assert 0.0 < relock < 120.0  # re-locks within a few days
+
+
+def test_reentrainment_negative_control_never_relocks(runs):
+    """Negative control: with entrainment disabled the oscillator free-runs and
+    never re-aligns to the shifted schedule, so re-entrainment must be NaN --
+    guarding the metric against reporting a non-adapting predictor as instantly
+    recovered (measuring recovery against the pre-shift, not post-shift, angle)."""
+    schedule = make_schedule(shift_at_hours=SHIFT_AT, shift_hours=6.0, seed=MASTER)
+    disabled = simulate(schedule, OscillatorConfig(entrainment_gain=0.0), seed=MASTER + 1)
+    assert np.isnan(reentrainment_time_hours(disabled, SHIFT_AT))
+    # ...while the entrained reference does re-lock in finite time.
+    assert np.isfinite(runs["dynamics"]["reentrainment_time_hours"])
 
 
 def test_reduced_phase_tracks_full_model(runs):

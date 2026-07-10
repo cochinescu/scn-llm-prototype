@@ -25,7 +25,9 @@ Metrics (all circular; identical to the reference implementation's definitions):
                             *tightness*, a SEPARATE metric, NOT the phase-error
                             target.
   reentrainment_time_hours  hours after the shift until the phase difference
-                            settles within 10% of a cycle of its stable angle.
+                            returns to within 10% of a cycle of the PRE-shift
+                            entrainment angle (a non-adapting predictor never
+                            re-entrains, by construction).
 
 Usage:
     python score.py --labels v1.0/labels.json --predictions my_output.json
@@ -56,16 +58,26 @@ def _mean_abs_error_percent(diffs: list[float]) -> float:
 
 
 def _reentrainment_time_hours(times, diffs, shift_at, tol_frac=0.10):
-    """Hours after the shift until |wrap(diff - stable_angle)| stays below
-    tol_frac of a cycle. NaN if it never settles. Mirrors the reference impl."""
+    """Hours after the shift until the phase difference returns to within
+    ``tol_frac`` of a cycle of the *pre-shift* stable entrainment angle and stays
+    there. NaN if it never settles.
+
+    The reference angle is the pre-shift entrainment relationship, NOT the
+    predictor's own eventual post-shift angle: a predictor that does not adapt --
+    one that keeps a stable but *unshifted* offset after the schedule moves -- must
+    score as never re-entraining, not as instantly recovered. (Scoring against the
+    predictor's own post-shift angle would report any predictor whose difference is
+    merely stable as re-entrained, including a frozen, non-adapting one.) Mirrors
+    the reference implementation."""
     post_idx = [i for i, t in enumerate(times) if t >= shift_at]
     if not post_idx:
         return float("nan")
-    t_last = times[-1]
-    settled = [diffs[i] for i, t in enumerate(times) if t >= shift_at + (t_last - shift_at) / 2]
-    if not settled:
+    # Stable pre-shift entrainment angle: the second half of the pre-shift window,
+    # past the initial synchronization transient.
+    pre_settled = [d for t, d in zip(times, diffs) if shift_at / 2 <= t < shift_at]
+    if not pre_settled:
         return float("nan")
-    angle = _circular_mean_angle(settled)
+    angle = _circular_mean_angle(pre_settled)
     deviation = [abs(_wrap(d - angle)) for d in diffs]
     threshold = tol_frac * TWO_PI
     for k in post_idx:
@@ -78,9 +90,25 @@ def score(labels: dict, predictions: list) -> dict:
     shift_at = float(labels["shift_at_hours"])
     truth = {round(float(g["time_hours"]), 6): float(g["target_phase"]) for g in labels["ground_truth"]}
 
+    # Validate the submission before scoring: a scorer that silently accepts
+    # NaN, duplicate, unexpected, or malformed predictions produces NaN or
+    # misleading metrics instead of rejecting an invalid entry.
     pred = {}
-    for p in predictions:
-        pred[round(float(p["time_hours"]), 6)] = float(p["phase"])
+    for i, p in enumerate(predictions):
+        if not isinstance(p, dict) or "time_hours" not in p or "phase" not in p:
+            raise SystemExit(f"prediction {i} is malformed: expected an object with 'time_hours' and 'phase' (got {p!r}).")
+        try:
+            t = round(float(p["time_hours"]), 6)
+            phase = float(p["phase"])
+        except (TypeError, ValueError):
+            raise SystemExit(f"prediction {i} has non-numeric 'time_hours'/'phase': {p!r}.")
+        if not math.isfinite(t) or not math.isfinite(phase):
+            raise SystemExit(f"prediction {i} has a non-finite 'time_hours'/'phase': {p!r}. Predictions must be finite.")
+        if t in pred:
+            raise SystemExit(f"duplicate prediction for time_hours={t}; each timestamp must appear exactly once.")
+        if t not in truth:
+            raise SystemExit(f"prediction for unexpected time_hours={t} not in the schedule; predict only the schedule's timestamps.")
+        pred[t] = phase
 
     missing = [t for t in truth if t not in pred]
     if missing:
