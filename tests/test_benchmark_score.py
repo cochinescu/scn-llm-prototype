@@ -83,3 +83,31 @@ def test_rejects_missing_timestamps():
     preds = _valid_predictions()[:-1]  # drop the last required timestamp
     with pytest.raises(SystemExit):
         score_mod.score(_labels(), preds)
+
+
+def test_scorer_reports_nan_for_non_adapting_submission():
+    """Frozen-spec guard: a predictor that does NOT re-align after the shift --
+    it holds a stable but unshifted offset -- must score re-entrainment as NaN
+    (never re-entrains), not 0. This pins the scorer's re-entrainment definition
+    at the benchmark-specification level, independent of scnllm/bench.py."""
+    labels = {
+        "task": "phase-tracking", "shift_at_hours": 2.0,
+        "ground_truth": [
+            {"time_hours": 0.0, "target_phase": 0.0},
+            {"time_hours": 1.0, "target_phase": 0.0},
+            {"time_hours": 2.0, "target_phase": 1.5708},  # 6 h-style jump at the shift
+            {"time_hours": 3.0, "target_phase": 1.5708},
+            {"time_hours": 4.0, "target_phase": 1.5708},
+            {"time_hours": 5.0, "target_phase": 1.5708},
+        ],
+    }
+    # Non-adapting: tracks truth pre-shift, holds its old phase post-shift (never
+    # follows the jump), so the post-shift difference stays far from the pre-shift
+    # angle.
+    non_adapting = [{"time_hours": float(t), "phase": 0.0} for t in range(6)]
+    out = score_mod.score(labels, non_adapting)
+    assert math.isnan(out["reentrainment_time_hours"])
+    # Positive control: a predictor that DOES re-align scores a finite time.
+    adapting = [{"time_hours": float(g["time_hours"]), "phase": g["target_phase"]}
+                for g in labels["ground_truth"]]
+    assert math.isfinite(score_mod.score(labels, adapting)["reentrainment_time_hours"])
