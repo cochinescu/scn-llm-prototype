@@ -98,9 +98,9 @@ def simulate(schedule: ZeitgeberSchedule, config: OscillatorConfig = OscillatorC
     # that decays to ~1% of the mean well before the measured post-shift window. A
     # causal running mean shifts the post-shift metrics only slightly (raw error,
     # angle, lock residual, and re-lock each move by well under a point / fraction
-    # of an hour) and leaves the rounded results and conclusions unchanged, so the
-    # post-shift conclusions are insensitive to -- not literally independent of --
-    # the centering choice.
+    # of an hour) and leaves the conclusions unchanged, so the post-shift
+    # conclusions are insensitive to -- not literally independent of -- the
+    # centering choice.
     z_centered = schedule.value - float(np.mean(schedule.value))
 
     def rhs(time: float, state: np.ndarray) -> np.ndarray:
