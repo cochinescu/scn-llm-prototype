@@ -58,7 +58,16 @@ timestamp must be predicted. Then:
 python score.py --labels v1.0/labels.json --predictions your_output.json
 ```
 
-`score.py` is **standard-library-only** and its metric definitions are the spec:
+`score.py` is **standard-library-only** — it needs nothing but Python, and it is
+the only script that runs against the benchmark files alone. The two scripts
+below (`reference_solver.py`, `build_benchmark.py`) are *conveniences* that
+reproduce and regenerate the dataset; they `import scnllm` and therefore require
+the separate **software release** (`pip install` the reference implementation,
+concept DOI [10.5281/zenodo.21286077](https://doi.org/10.5281/zenodo.21286077)),
+which is **not** bundled in this standalone benchmark archive. Scoring your own
+predictor never needs them.
+
+`score.py`'s metric definitions are the spec:
 
 | metric | meaning |
 |---|---|
@@ -69,7 +78,9 @@ python score.py --labels v1.0/labels.json --predictions your_output.json
 
 ## Worked example (reference baseline)
 
-Using this repo's coupled-oscillator model as the reference predictor:
+Using this repo's coupled-oscillator model as the reference predictor
+(`reference_solver.py` needs the `scnllm` software release installed — see the
+note above; `score.py` does not):
 
 ```bash
 python reference_solver.py --schedule v1.0/schedule.csv --out predictions.json
@@ -98,7 +109,10 @@ misreporting the task.
 python build_benchmark.py    # regenerates v1.0/ deterministically from seed 20260709
 ```
 
-The SHA-256 digests in `MANIFEST.json` pin the released files. To propose a new
+`build_benchmark.py` also `import`s `scnllm` (it drives the same generator as the
+software release), so it too requires that package installed; it is not needed to
+*use* the frozen `v1.0/` data, only to regenerate it. The SHA-256 digests in
+`MANIFEST.json` pin the released files. To propose a new
 version, bump the params/seed and `benchmarkVersion`, and keep old versions
 frozen.
 
